@@ -1,0 +1,46 @@
+// 鼠标手势
+.cursor-pointer {cursor: pointer}
+// 文字粗体
+.font-bold {font-weight: bold}
+// 块级垂直居中
+.flex-middle {display:flex;align-items:center}
+// 块级垂直居底
+.flex-end {display:flex;align-items:flex-end}
+// 块级垂直居顶
+.flex-start {display:flex;align-items:flex-start}
+// 块级水平居中
+.flex-center {display:flex;justify-content:center}
+// 块级水平边缘分布
+.flex-between {display:flex;justify-content:space-between}
+//块级水平边垂直缘分布
+.flex-betmiddle {display:flex;justify-content:space-between;align-items: center;}
+// 块级水平边缘分布,垂直方向居中
+.flex-midbetween {display:flex;justify-content:space-between;align-items: center;}
+// 块级垂直水平居中
+.flex-midcenter {display:flex;justify-content:center;align-items: center}
+// 垂直方向块级垂直水平居中
+.cflex-midcenter {display:flex;justify-content:center;align-items: center;flex-direction: column}
+// 垂直方向块级水平居中
+.cflex-middle {display:flex;align-items:center;flex-direction: column}
+// 垂直方向排列
+.flex-column {display:flex;flex-direction: column}
+// 水平方向排列
+.flex {display:flex}
+// 水平两侧分布
+.space-between {
+    display: flex;
+    justify-content: space-between
+}
+// inline-block
+.inline-block {display: inline-block}
+//必填项红*标注
+.red-mark::before{
+    content: '*';
+    color: #f56c6c;
+    margin-right: 4px;
+}
+.pb-0 {padding-bottom: 0 !important}
+.pos-relative {position: relative;}
+.pos-absolute {position: absolute;}
+.full-height {height: 100%}
+.full-width {width: 100%}

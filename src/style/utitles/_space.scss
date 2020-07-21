@@ -1,0 +1,25 @@
+@for $i from 1 through 20 {
+  .mt-#{$i} { margin-top: $i * 5px }
+  .mr-#{$i} { margin-right: $i * 5px }
+  .mb-#{$i} { margin-bottom: $i * 5px }
+  .ml-#{$i} { margin-left: $i * 5px }
+  .m-#{$i} { margin: $i * 5px }
+
+  .pt-#{$i} {padding-top: $i * 5px}
+  .pr-#{$i} {padding-right: $i * 5px}
+  .pb-#{$i} {padding-bottom: $i * 5px}
+  .pl-#{$i} {padding-left: $i * 5px}
+  .p-#{$i} {padding: $i * 5px}
+
+  .mpt-#{$i} {padding-top: $i * 1px}
+  .mpr-#{$i} {padding-right: $i * 1px}
+  .mpb-#{$i} {padding-bottom: $i * 1px}
+  .mpl-#{$i} {padding-left: $i * 1px}
+  .mp-#{$i} {padding: $i * 1px}
+
+  .mmt-#{$i} { margin-top: $i * 1px }
+  .mmr-#{$i} { margin-right: $i * 1px }
+  .mmb-#{$i} { margin-bottom: $i * 1px }
+  .mml-#{$i} { margin-left: $i * 1px }
+  .mm-#{$i} { margin: $i * 1px }
+}

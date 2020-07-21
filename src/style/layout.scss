@@ -1,0 +1,255 @@
+$sideBarBg: #304156;
+$subMenuBg: #1f2d3d;
+$mul-subMenuBg: #001528;
+$menuHover:#318dd2;
+$navBg: #ffffff;
+$nav-height: 50px;
+$crumb-height: 30px;
+$space: 20px;
+$scroll-height: 15px;
+
+#app {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  width: 100%;
+  height: 100%;
+  // z-index: 2006;
+  .app-wrapper {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background: #ffffff;
+    display: flex;
+  }
+  display: flex;
+  width: 100%;
+  // 主体区域
+  .main-container {
+    z-index: 500;
+    margin-left: -1px;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: margin-left .28s;
+    background: #ffffff;
+    .main-area {
+      width: 100%;
+      height: 100%;
+      // height: calc(100% - #{$nav-height + $crumb-height - $scroll-height});
+      padding-right: 15px;
+      overflow: hidden;
+      >.el-scrollbar__wrap {
+        overflow-x: hidden !important;
+        // height: 95% !important;
+        // margin-right: -30px !important;
+        .el-scrollbar__view {
+          height: 100%;
+        }
+      }
+    }
+  }
+  // 顶栏
+  @mixin ele-middle {
+    display: flex;
+    align-items: center;
+  }
+  .header-block {
+    border-bottom: 1px solid #d8dce5;
+    .logo {width:179px;height:50px;min-width: 179px;margin-left: -12px}
+    .nav {width: 100%}
+  }
+  .navbar {
+    // border-bottom: 1px solid #d8dce5;
+    height: $nav-height;
+    background: $navBg;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .navbar__menu{
+      @include ele-middle;
+      width: 100%;
+      justify-content: space-between;
+    }
+    .navbar__avatar{
+      @include ele-middle;
+      margin-right: 30px;
+      color: #898989;
+      .navbar__avatar__user {
+        @include ele-middle;
+        cursor: pointer;
+        img {
+          border-radius: 50%;
+          margin-left: 20px;
+          margin-right: 10px;
+          width: 35px;
+          height: 35px;
+        }
+      }
+    }
+    .logo {
+      height: 35px;
+      width: 150px;
+      background: #979797;
+      border-radius: 5px;
+      line-height: 35px;
+      text-align: center;
+      font-size: 18px;
+      color: white;
+      margin-left: $space;
+    }
+  }
+  .navbar-bread{
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid #d8dce5;
+    .navbar__avatar__user {
+      @include ele-middle;
+      cursor: pointer;
+      img {
+        border-radius: 50%;
+        margin-left: 20px;
+        margin-right: 10px;
+        width: 35px;
+        height: 35px;
+      }
+      margin-right: 10px;
+    }
+  }
+  .crumb {
+    height: $crumb-height;
+    line-height: $crumb-height;
+    padding-left: 10px;
+    .breadcrumb-active {
+      color: orange;
+    }
+  }
+  // 侧边栏
+  .sidebar-container {
+    background: $sideBarBg;
+    display: inline-block;
+    transition: width 0.28s;
+    min-width: 180px !important;
+    height: 100%;
+    // border-right: 1px solid #ececec;
+    .scrollbar-wrapper {
+      overflow-x: hidden;
+      height: 100%;
+      .el-scrollbar__view {
+        height: 100%;
+      }
+      border-right: 1px solid #e6e6e6;
+    }
+    
+    a {
+      text-decoration: none
+    }
+  }
+  // 适合单级菜单
+  .sidebar-container .scrollbar-wrapper .el-scrollbar__view .el-menu .el-menu-item {
+    &:hover {
+      color: $menuHover !important;
+      // border-right: 3px solid $menuHover !important;
+      background: $subMenuBg !important
+    }
+  }
+  .sidebar-container .scrollbar-wrapper .el-scrollbar__view .el-menu .is-active {
+    background: $subMenuBg !important
+    // border-right: 3px solid $menuHover !important;
+  }
+
+  // 适用多级菜单
+  .sidebar-container .scrollbar-wrapper .el-scrollbar__view .el-menu .el-submenu .el-menu-item {
+    &:hover {
+      color: $menuHover !important;
+      background: $mul-subMenuBg !important
+    }
+  }
+  .sidebar-container .scrollbar-wrapper .el-scrollbar__view .el-menu .el-submenu .is-active {
+    background: $mul-subMenuBg !important
+  }
+  .sidebar-container .nest-menu .el-submenu>.el-submenu__title,
+  .sidebar-container .el-submenu .el-menu-item {
+    min-width: 180px !important;
+    width: 180px !important;
+    background-color: $subMenuBg !important;
+    outline: none !important;
+    &:hover {
+      color: $menuHover !important;
+      // border-right: 3px solid $menuHover !important;
+    }
+  }
+  .sidebar-container .el-submenu .is-active {
+    // border-right: 3px solid $menuHover !important;
+    color: #318dd2 !important;
+  }
+  .el-form{text-align: left}
+
+  // 媒体查询
+  .media-show { display: none;}
+  .main-block {height: calc(100% - 51px);}
+
+  @media screen and (max-width: 1300px) {
+    .main-block {height: calc(100% - 97px);}
+    .media-hidden {display: none}
+    .media-show { display: flex;}
+    .mobile__fixed {
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+}
+
+body {
+  margin: 0px;
+  padding: 0px;
+}
+.el-submenu [class^=fa] {
+  vertical-align: baseline;
+  margin-right: 10px;
+}
+.el-menu-item [class^=fa] {
+  vertical-align: baseline;
+  margin-right: 10px;
+}
+.el-table th.gutter{
+  display: table-cell!important;
+}
+.el-table colgroup.gutter{
+  display: table-cell!important;
+}
+.line-bar {
+  background-color: rgba(247, 247, 247, 1);
+  padding: 10px;
+}
+.el-table {padding: 1px 0 !important}
+.table-auto .el-table__header-wrapper .el-table__header {
+  table-layout: auto !important;
+}
+.el-loading-mask {z-index: 3000}
+
+@media screen and (max-width: 480px) {
+  .el-dialog__wrapper .el-dialog {
+    width: 95% !important;
+  }
+  .el-dialog__wrapper .el-dialog .el-dialog__body {
+    overflow: auto
+  }
+  .media-width {
+    width: auto !important;
+  }
+  .el-message { min-width: 300px !important; }
+}
+
+@media screen and (max-width: 768px) {
+  .date-hidden { display: none!important; }
+}
+
+@media screen and (min-width: 768px) {
+  .date-hiddens { display: none!important; }
+}

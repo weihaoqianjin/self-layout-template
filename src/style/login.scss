@@ -1,0 +1,140 @@
+.login-bg {
+  width: 100%;
+  background: url('https://fgh5s.oss-cn-hangzhou.aliyuncs.com/boss/perfect/login-bg.png') no-repeat fixed top;
+  background-size: cover;
+  position: relative;
+}
+.animated {
+  animation: move 0.5s;
+}
+
+@keyframes move {
+  0% {
+    transform:translateX(-50%) translateY(-50%);
+  }
+
+  12.5% {
+    transform:translateX(-47%) translateY(-50%);
+  }
+  37.5% {
+    transform:translateX(-53%) translateY(-50%);
+  }
+  62.5% {
+    transform:translateX(-49%) translateY(-50%);
+  }
+  87.5% {
+    transform:translateX(-51%) translateY(-50%);
+  }
+  100% {
+    transform:translateX(-50%) translateY(-50%);
+  }
+}
+.login-logo {
+  width: 100%;
+  height: 67px;
+  text-align: right;
+  img {
+    width: 180px;
+    margin-right: 5px;
+  }
+}
+.spr-name {
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 40px;
+  padding-bottom: 10px;
+  div {
+    font-size: 20px;
+  }
+  span {
+    font-size: 14px;
+  }
+}
+.login-container {
+  width: 300px;
+  background:rgba(0,0,0,0.5);
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  padding: 30px 40px 30px;
+  border-radius: 6px;
+  .form-area {
+    padding-top: 4px;
+    .form-line {
+      position: relative;
+      line-height: 25px;
+      color: #fff;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+      padding-left: 40px;
+      .from-title {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 40px;
+        height: 40px;
+        background-color: #d9d9d9;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      input {
+        line-height: 1;
+        width: 100%;
+        height: 38px;
+        margin: 0;
+        -webkit-transition: all .25s ease;
+        transition: border .25s ease;
+        text-align: left;
+        color: #3d444f;
+        border: none;
+        outline: none;
+        background-color: #ffffff;
+        box-shadow: none;
+        text-indent: 10px;
+      }
+      input:focus {
+        border-color: #589df0;
+        box-shadow: 0px 0px 2px #569bf0;
+        outline-offset: 0;
+        outline: 0;
+      }
+    }
+    .login-bottom {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 40px;
+      color: #000000;
+      background-color: #fdd000;
+      margin: 0 auto;
+      font-size: 16px;
+    }
+    .login-bottom:hover {
+      border-color: #d8b104;
+      background-color: #d8b104;
+      background-position-x: 2px;
+    }
+  }
+}
+.code-image{
+  width: 100px;
+  height: 39px;
+  position: absolute !important;
+  right: 0px;
+  bottom: 0px;
+}
+.beian{
+  z-index: 2;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 3%;
+  color: #ffffff;
+}

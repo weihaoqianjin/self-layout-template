@@ -1,0 +1,8 @@
+@each $key, $value in $directions-level {
+  .float-#{$key} {
+    float: $value !important;
+  }
+  .align-#{$key} {
+    text-align: $value !important;
+  }
+}
