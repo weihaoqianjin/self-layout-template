@@ -11,6 +11,8 @@
     "inspect": "vue inspect > output.js"
   },
   "dependencies": {
+    "@vue/babel-helper-vue-jsx-merge-props": "^1.0.0",
+    "@vue/babel-preset-jsx": "^1.1.2",
     "animate.css": "^3.7.0",
     "axios": "^0.18.0",
     "core-js": "^3.6.4",
