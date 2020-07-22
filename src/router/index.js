@@ -15,8 +15,7 @@ let routerMap = [
     path: '/login',
     component: () => import('@/single-page/Login.vue'),
     name: 'login',
-    hidden: true,
-    meta: {singlePage: true}
+    hidden: true
   },
   {
     path: '/404',
@@ -39,6 +38,13 @@ let routerMap = [
   }
 ]
 
+routerMap = routerMap.map(item => {
+  return {
+    basicRouter: true,
+    ...item
+  }
+})
+
 // 处理单个菜单组路由信息
 function createGroupRouter (group) {
   function handleMenu (menu = [], group = {}, path = '', parent = null, ret = []) {
@@ -53,7 +59,7 @@ function createGroupRouter (group) {
           bread: [],
           fullpath: path ? `${path}/${subMenu.path}` : `${subMenu.path}`,
           groupName: group.groupName,
-          groupId: group.groupId
+          groupId: group.id
         }
 
         if (group.singleNode) {
@@ -69,7 +75,7 @@ function createGroupRouter (group) {
       let node = Object.assign({}, subMenu)
       node.singleNode = !!group.singleNode
       node.groupName = group.groupName
-      node.groupId = group.groupId
+      node.groupId = group.id
       node.children = []
       if (subMenu.meta) {
         node.meta = Object.assign({}, subMenu.meta, meta)
@@ -118,11 +124,11 @@ function buildAuthTree (tree = [], arr = []) {
       children: []
     }
     arr.push(node)
-    if (item.auth) {
-      for (let btn of item.auth) {
-        btn.id = btn.id || (item.name + btn.prop)
+    if (item.button) {
+      for (let btn of item.button) {
+        btn.id = btn.id || `${item.name}:${btn.prop}`
       }
-      node.auth = item.auth
+      node.button = item.button
     }
     if ((item.children && item.children.length) || (item.routes && item.routes.length)) buildAuthTree(item.children || item.routes, node.children)
   }

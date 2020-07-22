@@ -4,22 +4,12 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
-// import SidebarItem from './sidebar-item'
 export default {
   name: 'sidebar',
-  computed: {
-    // menulist () {
-    //   let groups = this.$state.sesUserAuthTree()
-    //   let index = this.$state.curGroupIndex
-    //   let menu = groups[index]
-    //   return menu.children
-    // }
-  },
   watch: {
     '$state.curGroupIndex': function (val) {
       let groups = this.$state.sesUserAuthTree()
-      this.menulist = groups[val].children || []
+      this.menulist = groups[val] ? groups[val].children || [] : []
     }
   },
   data () {

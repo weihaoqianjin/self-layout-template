@@ -20,9 +20,9 @@ const routerMap = [
         name: 'fixer-list',
         path: 'fixer-list',
         meta: { title: '修理工列表', cached: true },
-        auth: [
+        button: [
           { prop: 'add', label: '新增' },
-          { id: 'supplier-list:delete', prop: 'delete', label: '删除' }
+          { id: 'fixed-list:delete', prop: 'delete', label: '删除' }
         ],
         component: () => import('@/views/user/fixer-list')
       },

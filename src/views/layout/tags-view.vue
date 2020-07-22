@@ -2,9 +2,9 @@
   <div class="tags-view-container">
     <div class="tags-view-wrapper">
       <div class="fixed">
-        <router-link class="tags-view-item" :class="isActive(tag)?'active':''" v-for="tag in $state.visitedViews" :to="tag.fullPath" :key="tag.path">
-          <span @click="moveToCurrentPage(tag)">{{tag.title}}</span>
-          <span class='el-icon-close' @click.prevent.stop='closeSelectedTag(tag)' v-show="($state.visitedViews.length !== 1) && (tag.fullPath !== '/homepage/index')"></span>
+        <router-link class="tags-view-item" :class="isActive(tag)?'active':''" v-for="tag in $state.visitedViews" :to="tag.fullPath" :key="tag.path" @click.native="moveToCurrentPage(tag)">
+          <span>{{tag.title}}</span>
+          <span class='el-icon-close' @click.stop.prevent='closeSelectedTag(tag)' v-show="($state.visitedViews.length !== 1) && (tag.fullPath !== '/homepage/index')"></span>
         </router-link>
       </div>
     </div>
@@ -13,11 +13,6 @@
 
 <script>
 export default {
-  data () {
-    return {
-      title: ''
-    }
-  },
   watch: {
     $route () {
       this.addViewTags()

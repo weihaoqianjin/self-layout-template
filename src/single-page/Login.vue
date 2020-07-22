@@ -60,7 +60,8 @@ export default {
       if (!menu.length) return
       for (let item of menu) {
         if (item.id) map[item.id] = 1
-        if (item.children) this.getAllAuthMap(item.children, map)
+        if (item.children && item.children.length) this.getAllAuthMap(item.children, map)
+        if (item.button && item.button.length) this.getAllAuthMap(item.button, map)
       }
       return map
     },
@@ -82,27 +83,24 @@ export default {
       if (!this.ruleForm2.account) return this.errorAlert('请输入用户名', 'account')
       if (!this.ruleForm2.checkPass) return this.errorAlert('请输入密码', 'password')
       if (!this.ruleForm2.code) return this.errorAlert('请输入验证码', 'code')
-      // const loginParams = Object.assign({}, { userName: this.ruleForm2.account, password: this.ruleForm2.checkPass, yzm: this.ruleForm2.code })
-      // let ret = await this.$http.cors('/backendapi/admin/admin-user-login.cgi', loginParams)
-      let ret = {"@type":"com.fook.prepose.application.dto.AdminDTO","code":0,"message":"成功","resultList":{"groupId":1,"phone":"18551067481","adminId":242,"accountType":8,"userName":"zhangyoujun","realName":"洋玩意","managementType":8,"isLock":false},"roleResult":{"0":"[\"home\",\"user\",\"user:user-list\",\"user:brand-list\",\"user:agent-list\",\"user:admin-list\",\"user:role-manage\",\"device\",\"device:device-list\",\"device:point-list\",\"product\",\"product:sku-list-manage\",\"product:sku-list\",\"product:price-setting\",\"product:price-setting:set-record\",\"operate\",\"operate:supplier-manage\",\"operate:supplier-recording\",\"operate:supplier-manage:supplier-details\",\"operate:supplier-manage:supplier-template-edit\",\"operate:inventor-manage\",\"operate:inventor-manage:inventor-record\",\"operate:inventor-manage:inventor-detail-list\",\"operate:stock-manage\",\"operate:stock-manage:reserve-adjust\",\"operate:stock-manage:reserve-adjust-record\",\"order\",\"order:order-list\",\"order:order-pay-record\",\"order:order-detail-list\",\"order:corrective-manage\",\"order:corrective-manage:corrective-action\",\"statistic\",\"statistic:sale-statistic\",\"message\",\"message:all-message\",\"message:already-read-message\",\"message:no-read-message\",\"system\",\"system:sys-account\",\"order:error-receive-order\",\"device:putin-apply\",\"device:rebacked-list\",\"device:rebacked-device\",\"device:putin-audit\",\"device:device-cost-setting\",\"device:device-cost-setting-record\",\"finance:cabinet-finance\",\"finance:cabinet-finance:device-account-list\",\"finance:cabinet-finance:recharge-record\",\"finance:cabinet-finance:expenses-record\",\"finance:cabinet-finance:offline-recharge\",\"device:download-list\",\"other\",\"device:distributed-list\",\"device:device-operation-record\"]","1":"[\"user:brand-list:add\",\"user:brand-list:edit\",\"user:brand-list:switch\",\"device:device-list:distribute\",\"device:device-list:export\",\"device:device-list:operate\",\"device:device-list:maintain\",\"device:device-list:fast-operate\",\"device:device-list:fast-maintain\",\"device:point-list:export\",\"product:sku-list-manage:detail\",\"operate:supplier-recording:export\",\"operate:supplier-manage:supplier-details:export\",\"operate:supplier-manage:supplier-template-edit:add\",\"operate:supplier-manage:supplier-template-edit:edit\",\"operate:supplier-manage:supplier-template-edit:delete\",\"operate:inventor-manage:inventor-record:export\",\"operate:inventor-manage:inventor-detail-list:export\",\"operate:stock-manage:reserve-adjust-record:export\",\"order:order-list:export\",\"order:order-pay-record:export\",\"order:order-detail-list:export\",\"order:error-receive-order:export\",\"device:putin-apply:multi-apply\",\"device:putin-apply:apply\",\"device:rebacked-list:recall\",\"device:rebacked-device:multi-apply\",\"device:rebacked-device:apply\",\"device:device-cost-setting:multi-setting\",\"device:device-cost-setting:pay-setting\",\"finance:cabinet-finance:device-account-list:account-clear\",\"finance:cabinet-finance:offline-recharge:offline-recharge-btn\",\"other:test-open\"]"},"timeStamp":1587025606096}
-      if (ret.code === 0) {
-        this.$dispatch('setUserInfo', JSON.stringify(ret.resultList))
-        let roleResult = [...JSON.parse(ret.roleResult[0] || '[]'), ...JSON.parse(ret.roleResult[1] || '[]')]
+      const loginParams = Object.assign({}, { userName: this.ruleForm2.account, password: this.ruleForm2.checkPass, yzm: this.ruleForm2.code })
+      let ret = await this.$http.cors('/self-layout/login', loginParams)
+      if (ret.code === 200) {
+        this.$dispatch('setUserInfo', JSON.stringify(ret.data.userInfo))
         this.$dispatch('clearVisitedViews')
-        let mRet = await this.getMenuList(roleResult, ret.dataRole || [])
+        let result = await this.getMenuList(ret.data.menuAuth)
         let url = this.$state.menuGroups[0].link
-        mRet && this.$router.push(url)
+        result && this.$router.push(url)
       } else {
         this.getVcodeData()
       }
     },
     // 根据idMap过滤auth tree
-    filterAuthById (tree = [], idMap, arr = []) {
+    filterAuthById (tree = [], idMap = {}, arr = []) {
       if (!tree.length) return []
       for (let item of tree) {
         if (!idMap[item.id]) continue
-        let node = {}
-        node = {id: item.id, ...item, children: []}
+        let node = {...item, children: []}
         arr.push(node)
         if (item.children && item.children.length) this.filterAuthById(item.children, idMap, node.children)
       }
@@ -118,15 +116,16 @@ export default {
       return map
     },
     // build Button Auth Map
-    buildBtnAuthMap (tree = [], idMap = {}, parent, btnMap = {}) {
+    buildBtnAuthMap (tree = [], idMap = {}, parent, btnMap = {}, flag = false) {
       if (!tree.length) return []
       for (let item of tree) {
-        let btnId = item.menuId ? (item.id) : 0
-        if (idMap[btnId]) {
+        let btnId = flag ? item.id : 0
+        if (flag && idMap[btnId]) {
           btnMap[parent.name] = btnMap[parent.name] || []
-          btnMap[parent.name].push(item.prop)
+          btnMap[parent.name].push(btnId)
         }
         if (item.children && item.children.length) this.buildBtnAuthMap(item.children, idMap, item, btnMap)
+        if (item.button && item.button.length) this.buildBtnAuthMap(item.button, idMap, item, btnMap, true)
       }
       return btnMap
     },
@@ -138,35 +137,44 @@ export default {
       }
       return temp
     },
-    async getMenuList (menuData = [], dataAuth = []) {
-      // 建立权限菜单ID索引
+    // 过滤无权限菜单
+    filterMenu (menu = [], modelMap = {}, ret = []) {
+      if (!menu.length) return []
+      for (let item of menu) {
+        if (item.basicRouter || (item.singleNode && modelMap[item.groupId])) {
+          ret.push(item)
+          continue
+        }
+        if (item.id && modelMap[item.id] || !item.meta && !item.singleNode) {
+          let node = {...item, children: []}
+          if (item.children && item.children.length) this.filterMenu(item.children, modelMap, node.children)
+          ret.push(node)
+        }
+      }
+      return ret
+    },
+    async getMenuList (menuData = []) {
+      // 建立权限菜单ID索引map
       let modelMap = {}
       menuData.map((e) => {
         modelMap[e] = 1
       })
-      // 开启所有权限
-      modelMap = this.getAllAuthMap(this.$state.routerTree)
+
+      // 读取公共配置，是否对用户开放所有菜单权限
+      if (this.$config.openAllAuth) modelMap = this.getAllAuthMap(this.$state.routerTree)
       sessionStorage.setItem('modelMap', JSON.stringify(modelMap))
+
       // 过滤无权限菜单项
       let routerMap = JSON.clone(this.$state.originRouterMap)
-      // routerMap = routerMap.filter(item => {
-      //   if (!item.children) return true
-      //   item.children = item.children.filter(i => {
-      //     if (item.singleNode) return modelMap[item.groupId]
-      //     return modelMap[i.id]
-      //   })
-      //   return item.children.length
-      // })
+      routerMap = this.filterMenu(routerMap, modelMap)
+
       // 构建一级菜单组信息
       let menuGroups = JSON.clone(this.$state.originMenuGroups)
       let groupMap = {}
-      routerMap.map(item => {
-        if (!item.groupName) return false
-        for (let i = 0; i < item.children.length; i++) {
-          if (groupMap[item.groupName]) break
-          if (!item.children[i].hidden || item.singleNode) groupMap[item.groupName] = 1
-        }
-      })
+      for (let item of routerMap) {
+        if (!item.groupName || groupMap[item.groupName]) continue
+        groupMap[item.groupName] = 1
+      }
       
       menuGroups = menuGroups.filter(item => groupMap[item.groupName])
       // 覆盖初始一级菜单绑定路由地址
@@ -189,7 +197,6 @@ export default {
       let btnAuthMap = this.buildBtnAuthMap(JSON.clone(this.$state.routerTree), modelMap)
       this.$dispatch('setBtnAuthMap', JSON.stringify(btnAuthMap))
       this.$dispatch('setUserAuthTree', JSON.stringify(userAuthTree))
-      this.$dispatch('setCabinetList', JSON.stringify(dataAuth))
       this.$dispatch('setRouterMap', routerMap)
       this.$dispatch('setMenuGroups', menuGroups)
       this.$dispatch('setFilterMenuGroups', JSON.stringify(menuGroups))
@@ -204,18 +211,15 @@ export default {
       let routerModelMap = this.buildAuthMap(routerMap)
       routerModelMap = this.buildHiddenMenu(this.$state.originRouterMap, JSON.clone(routerModelMap))
       this.$dispatch('setRouterModelMap', JSON.stringify(routerModelMap))
-      return menuData
+      return true
     }
   },
   mounted () {
     sessionStorage.clear()
-    // if (sessionStorage.agentUser) sessionStorage.removeItem('agentUser')
-    // if (sessionStorage.token) sessionStorage.removeItem('token')
     this.getVcodeData()
     this.bodyHeight = document.documentElement.clientHeight
   }
 }
-
 </script>
 
 <style lang="scss" scoped>

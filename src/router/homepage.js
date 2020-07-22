@@ -7,8 +7,7 @@ const routerMap = [
           name: 'index',
           path: 'index',
           meta: { title: '首页'},
-          component: () => import('@/views/homepage/index'),
-          hidden: true
+          component: () => import('@/views/homepage/index')
         }
       ]
     }

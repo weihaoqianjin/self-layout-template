@@ -16,7 +16,7 @@ export default {
   name: 'avatar',
   computed: {
     sysUserName () {
-      return this.$state.sesUserInfo().userName
+      return this.$state.sesUserInfo().name || ''
     }
   },
   methods: {
@@ -33,16 +33,6 @@ export default {
         this.$dispatch('setCurGroupIndex', 1)
         this.jump('/login')
       } catch (e) {}
-    }
-  },
-  mounted () {
-    this.userInfo = this.$state.sesUserInfo()
-    let user = sessionStorage.getItem('user')
-    if (user) {
-      user = JSON.parse(user)
-      this.sysUserName = user.name || ''
-      this.sysUserAvatar = user.avatar || ''
-      this.sysUserId = user.is_datav
     }
   }
 }

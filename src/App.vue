@@ -24,7 +24,6 @@
     },
     mounted () {
       this.userInfo = this.$state.sesUserInfo()
-      this.$http.cors('https://www.fastmock.site/mock/be3943698b1d0ad78c65bd50d8a3bdc9/self-layout/login', {})
     }
   }
 </script>

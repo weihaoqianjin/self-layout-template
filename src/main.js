@@ -17,6 +17,7 @@ import axios from 'axios'
 import qs from 'qs'
 import * as filters from '@/filters'
 import apiUrl from '@/config/baseurl.js'
+import config from '@/config'
 
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
@@ -50,16 +51,17 @@ router.afterEach(() => {
 
 // 原型扩展
 Vue.prototype.Bus = new Vue()
+Vue.prototype.$config = config
 Vue.prototype.$u = $u
 Vue.prototype.$dispatch = store.dispatch
 Vue.prototype.$state = store.getters
 Vue.prototype.$log = (info) => { console.log(info) }
-function jumpWrap (params) {
+Vue.prototype.jump = function (params) {
   try {
     router.push(params)
   } catch (e) {}
 }
-Vue.prototype.jump = jumpWrap
+
 Vue.prototype.$check = function (form) {
   let self = this
   return new Promise((resolve, reject) => {
@@ -68,13 +70,7 @@ Vue.prototype.$check = function (form) {
     })
   })
 }
-Vue.prototype.$Notify = function (message) {
-  Vue.prototype.$message({
-    message: message,
-    type: 'success'
-  })
-  
-}
+
 Vue.prototype.$c = function (key, fn, params) {
   if (fn === 'all') {
     return [{
@@ -89,8 +85,7 @@ Vue.prototype.$c = function (key, fn, params) {
 let http = axios.create()
 
 http.cors = (url, params, loading, noErr) => {
-  // let key = url.match(/\/(\S*api)\//)[1]
-  let baseURL = null
+  let baseURL = process.env.VUE_APP_APIURL
   return http.post(url, qs.stringify(params), {loading, noErr, baseURL})
 }
 

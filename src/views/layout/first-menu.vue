@@ -24,16 +24,14 @@ export default {
     hideMenu (item) {
       return hideMenuList.indexOf(item) === -1
     },
-    changeMenu (index, type) {
+    changeMenu (index) {
       this.$dispatch('setIsAllow', true)
-      this.$nextTick(() => {
-        this.current = index
-        this.$dispatch('switchMenuGroup', index)
-        this.$dispatch('setCurGroupIndex', index)
-        let groups = this.$state.menuGroups
-        let path = this.$state.menuGroups[index].link
-        this.jump(path)
-      })
+      this.current = index
+      this.$dispatch('switchMenuGroup', index)
+      this.$dispatch('setCurGroupIndex', index)
+      let groups = this.$state.menuGroups
+      let path = this.$state.menuGroups[index].link
+      this.jump(path)
     },
     switchFirstMenu (index) {
       this.current = index
