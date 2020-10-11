@@ -8,7 +8,7 @@
         </div>
         <div class="spr-name">
           <div>欢迎登录SRP</div>
-          <span>V1.0.12</span>
+          <span>V2.0</span>
         </div>
         <div class="form-area">
           <div class="form-line" prop="account">
@@ -23,13 +23,6 @@
             </div>
             <input type="password" v-model="ruleForm2.checkPass" ref="password">
           </div>
-          <div style="position:relative;padding-right: 110px;" class="form-line" prop="code">
-            <div class="from-title">
-              <img src="https://fgh5s.oss-cn-hangzhou.aliyuncs.com/boss/perfect/login-code.png">
-            </div>
-            <input type="text" v-model="ruleForm2.code" class="code-box" ref="code">
-            <img v-on:click="changeCode" class="code-image">
-          </div>
           <el-form-item style="width:100%; margin: 20px 0 40px 0;">
             <hb-button class="login-bottom" @click="handleSubmit2">
               登 录
@@ -37,7 +30,6 @@
           </el-form-item>
         </div>
       </el-form>
-    <div class='beian'>备案号：蜀ICP备17035588号-1   Copyright©2016-2020 福柜科技 版权所有</div>
   </div>
 </template>
 
@@ -84,9 +76,16 @@ export default {
       if (!this.ruleForm2.checkPass) return this.errorAlert('请输入密码', 'password')
       if (!this.ruleForm2.code) return this.errorAlert('请输入验证码', 'code')
       const loginParams = Object.assign({}, { userName: this.ruleForm2.account, password: this.ruleForm2.checkPass, yzm: this.ruleForm2.code })
-      let ret = await this.$http.cors('/self-layout/login', loginParams)
+      // let ret = await this.$http.cors('/self-layout/login', loginParams)
+      let ret = {
+        code: 200,
+        data: {
+          userInfo: {name: '尚子寒'},
+          auth: []
+        }
+      }
       if (ret.code === 200) {
-        this.$dispatch('setUserInfo', JSON.stringify(ret.data.userInfo))
+        this.$dispatch('setUserInfo', ret.data.userInfo)
         this.$dispatch('clearVisitedViews')
         let result = await this.getMenuList(ret.data.menuAuth)
         let url = this.$state.menuGroups[0].link
@@ -162,7 +161,7 @@ export default {
 
       // 读取公共配置，是否对用户开放所有菜单权限
       if (this.$config.openAllAuth) modelMap = this.getAllAuthMap(this.$state.routerTree)
-      sessionStorage.setItem('modelMap', JSON.stringify(modelMap))
+      sessionStorage.setItem('modelMap', modelMap)
 
       // 过滤无权限菜单项
       let routerMap = JSON.clone(this.$state.originRouterMap)
@@ -193,31 +192,55 @@ export default {
       // 构建当前用户权限树，用于分配子用户权限
       let userAuthTree = JSON.clone(this.$state.routerTree)
       userAuthTree = this.filterAuthById(userAuthTree, modelMap)
-      // 按钮权限映射表
+    // 按钮权限映射表
       let btnAuthMap = this.buildBtnAuthMap(JSON.clone(this.$state.routerTree), modelMap)
-      this.$dispatch('setBtnAuthMap', JSON.stringify(btnAuthMap))
-      this.$dispatch('setUserAuthTree', JSON.stringify(userAuthTree))
+      this.$dispatch('setBtnAuthMap', btnAuthMap)
+      let btnAuthFlatMap = Object.values(btnAuthMap).flat()
+      this.$dispatch('setBtnAuthFlatMap', btnAuthFlatMap)
+      this.$dispatch('setUserAuthTree', userAuthTree)
       this.$dispatch('setRouterMap', routerMap)
       this.$dispatch('setMenuGroups', menuGroups)
-      this.$dispatch('setFilterMenuGroups', JSON.stringify(menuGroups))
-      this.$dispatch('setFilterRouterMap', JSON.stringify(routerMap))
+      this.$dispatch('setFilterMenuGroups', menuGroups)
+      this.$dispatch('setFilterRouterMap', routerMap)
       // 一级菜单组索引map
       let menuGroupIndexMap = {}
       menuGroups.map((item, index) => {
         menuGroupIndexMap[item.groupName] = index
       })
-      this.$dispatch('setMenuGroupIndexMap', (JSON.stringify(menuGroupIndexMap)))
+      this.$dispatch('setMenuGroupIndexMap', (menuGroupIndexMap))
       // 构建权限菜单索引map，用于路由导航判断用户页面权限
       let routerModelMap = this.buildAuthMap(routerMap)
       routerModelMap = this.buildHiddenMenu(this.$state.originRouterMap, JSON.clone(routerModelMap))
-      this.$dispatch('setRouterModelMap', JSON.stringify(routerModelMap))
+      this.$dispatch('setRouterModelMap', routerModelMap)
       return true
     }
   },
+  beforeCreate () {
+    console.log('login:beforeCreate')
+  },
+  created () {
+    console.log('login:created')
+  },
+  beforeMount () {
+    console.log('login:beforeMount')
+  },
   mounted () {
+    console.log('login:mounted')
     sessionStorage.clear()
     this.getVcodeData()
     this.bodyHeight = document.documentElement.clientHeight
+  },
+  beforeUpdate () {
+    console.log('login:beforeUpdate')
+  },
+  updated () {
+    console.log('login:updated')
+  },
+  beforeDestory () {
+    console.log('login:beforeDestory')
+  },
+  destroyed () {
+    console.log('login:destroyed')
   }
 }
 </script>

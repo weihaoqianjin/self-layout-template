@@ -16,7 +16,6 @@ import HbImage from './hb-image'
 import HbScroll from './hb-scroll'
 import HbTable from './hb-table'
 import HbTableColumn from './hb-table-column'
-import HbTitleBar from './hb-title-bar'
 import HbCascader from './hb-cascader'
 import HbTree from './hb-tree'
 import HbUpload from './hb-upload'
@@ -41,7 +40,6 @@ const components = [
   HbScroll,
   HbTable,
   HbTableColumn,
-  HbTitleBar,
   HbCascader,
   HbTree,
   HbUpload,

@@ -52,6 +52,18 @@ export default {
   },
   mounted () {
     this.Bus.$on('toggleDrawer', this.toggleDrawer)
+  },
+  beforeUpdate () {
+    console.log('main:beforeUpdate')
+  },
+  updated () {
+    console.log('main:updated')
+  },
+  beforeDestory () {
+    console.log('main:beforeDestory')
+  },
+  destroyed () {
+    console.log('main:destroyed')
   }
 }
 </script>

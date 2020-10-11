@@ -5,8 +5,9 @@ const routerMap = [
     children: [
       {
         name: 'user-list',
-        path: 'user-list',
-        meta: { title: '用户列表', cached: true },
+        path: 'user-list/:age',
+        props: true,
+        meta: { title: '用户列表' },
         component: () => import('@/views/user/user-list')
       }
     ]
@@ -22,7 +23,7 @@ const routerMap = [
         meta: { title: '修理工列表', cached: true },
         button: [
           { prop: 'add', label: '新增' },
-          { id: 'fixed-list:delete', prop: 'delete', label: '删除' }
+          { id: 'fixed-list-delete', prop: 'delete', label: '删除' }
         ],
         component: () => import('@/views/user/fixer-list')
       },

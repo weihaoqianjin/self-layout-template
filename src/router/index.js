@@ -14,14 +14,12 @@ let routerMap = [
   {
     path: '/login',
     component: () => import('@/single-page/Login.vue'),
-    name: 'login',
-    hidden: true
+    name: 'login'
   },
   {
     path: '/404',
     component: () => import('@/single-page/404.vue'),
-    name: 'notfound',
-    hidden: true
+    name: 'notfound'
   },
   {
     path: '/homepage',
@@ -33,7 +31,6 @@ let routerMap = [
   },
   {
     path: '*',
-    hidden: true,
     redirect: { path: '/404' }
   }
 ]
@@ -196,8 +193,8 @@ store.dispatch('setMenuGroups', groups)
 store.dispatch('setOriginMenuGroups', JSON.clone(groups))
 // 浏览器手动刷新时初始化相关信息
 if (store.getters.sesFilterRouterMap()) {
-  store.dispatch('setRouterMap', JSON.parse(store.getters.sesFilterRouterMap()))
-  store.dispatch('setMenuGroups', JSON.parse(store.getters.sesFilterMenuGroups()))
+  store.dispatch('setRouterMap', store.getters.sesFilterRouterMap())
+  store.dispatch('setMenuGroups', store.getters.sesFilterMenuGroups())
   store.dispatch('initVisitedTags', store.getters.sesVisitedTags())
 }
 export default router

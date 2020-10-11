@@ -26,8 +26,8 @@ const actions = {
 
 const mutations = {
     INIT_VISITED_TAGS (state, payload) {
-        state.visitedViews = payload.visitedViews
-        state.visitedFullPaths = payload.visitedFullPaths
+        state.visitedViews = JSON.parse(payload.visitedViews)
+        state.visitedFullPaths = JSON.parse(payload.visitedFullPaths)
     },
     ADD_VISITED_VIEWS (state, payload) {
         let indexMap = sessionStorage.getItem('menuGroupIndexMap') || {}

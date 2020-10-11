@@ -1,14 +1,13 @@
 <template>
   <div class="app-firstmenu">
     <ul class="app-firstmenu__menus">
-      <li class="menu__item " v-bind:class="{ active:index === current}"  v-for="(item, index) in menus"  :key="item.groupName" @click="changeMenu(index)" v-show="hideMenu(item.groupName)">
+      <li class="menu__item " v-bind:class="{ active:index === current}"  v-for="(item, index) in menus"  :key="item.groupName" @click="changeMenu(index)">
         {{item.groupName}}
       </li>
     </ul>
   </div>
 </template>
 <script type="text/javascript">
-import hideMenuList from '@/config/menu.js'
 export default {
   data () {
     return {
@@ -21,9 +20,6 @@ export default {
     }
   },
   methods: {
-    hideMenu (item) {
-      return hideMenuList.indexOf(item) === -1
-    },
     changeMenu (index) {
       this.$dispatch('setIsAllow', true)
       this.current = index

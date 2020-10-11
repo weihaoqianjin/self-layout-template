@@ -27,10 +27,7 @@
   </el-drawer>
 </template>
 <script>
-import hideMenuList from '@/config/menu.js'
-let tempMenu = new Set(hideMenuList)
-tempMenu.delete('消息')
-tempMenu = [...tempMenu]
+
 export default {
   name: 'drawer',
   props: {
@@ -46,7 +43,7 @@ export default {
     filterBtn (menus = [], arr = []) {
       if (!menus.length) return []
       for (let i = 0; i < menus.length; i++) {
-        if (tempMenu.includes(menus[i].label)) continue
+        // if (tempMenu.includes(menus[i].label)) continue
         let temp = {
           id: menus[i].id,
           label: menus[i].label,

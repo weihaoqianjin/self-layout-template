@@ -1,6 +1,9 @@
 <template>
   <panel class="homepage">
-    <hb-menu :list="dataList" sign="name" @clickMenu="toPath"/>
+    <el-button @click="jump('/user/user-list/77')">go</el-button>
+    <el-button v-if="hasAuth('fixer-list:add')" style="color: red">hasAuth测试</el-button>
+    <el-button v-auth="{id: 'fixed-list-delete'}" style="color: red">v-auth测试</el-button>
+    <hb-menu  :list="dataList" sign="name" @clickMenu="toPath"/>
   </panel>
 </template>
 <script>

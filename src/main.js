@@ -16,8 +16,13 @@ import Constant from '@/constants'
 import axios from 'axios'
 import qs from 'qs'
 import * as filters from '@/filters'
-import apiUrl from '@/config/baseurl.js'
 import config from '@/config'
+
+if (window.location.protocol === 'http:' && config.validateProtocol) {
+  window.location.href = window.location.href.replace('http:', 'https:')
+}
+
+
 
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
@@ -33,7 +38,7 @@ router.beforeEach((to, from, next) => {
   }
   // 用户无权限页面导航
   if (store.getters.sesRouterModelMap()) {
-    let map = JSON.parse(store.getters.sesRouterModelMap())
+    let map = store.getters.sesRouterModelMap()
     if (!map[to.name]) {
       return next('/404')
     }
@@ -61,6 +66,30 @@ Vue.prototype.jump = function (params) {
     router.push(params)
   } catch (e) {}
 }
+
+Vue.directive('auth', {
+  inserted: function (el, bind) {
+    let btnMap = store.getters.sesBtnAuthMap()
+    let btnFlatMap = store.getters.sesBtnAuthFlatMap()
+    let {pageName, id, prop} = bind.value
+    if (id && btnFlatMap.includes(id) ) return
+    if (!btnMap[pageName] || !btnMap[pageName].includes(`${pageName}:${prop}`)) {
+      el.parentNode.removeChild(el)
+    }
+  }
+})
+
+Vue.mixin({
+  methods: {
+    hasAuth (btn = '', menu = '') {
+      let flatMap = store.getters.sesBtnAuthFlatMap()
+      if (flatMap.includes(btn)) return true
+      let map = this.$state.sesBtnAuthMap()
+      menu = menu || this.$route.name
+      return map[menu] ? map[menu].includes(`${menu}:${btn}`) : false
+    }
+  }
+})
 
 Vue.prototype.$check = function (form) {
   let self = this
@@ -96,7 +125,6 @@ http.interceptors.request.use(function (request) {
 })
 
 // 添加响应拦截器
-let times = new Date().getTime()
 http.interceptors.response.use(function (response) {
   response.config.loading && store.dispatch('setLoading', false)
 
@@ -116,21 +144,13 @@ http.interceptors.response.use(function (response) {
 	// 对响应错误做点什么
 	return Promise.reject(error)
 })
+
 Vue.prototype.$http = http
 
 Vue.prototype.$getComponentSize = function () {
   return window.innerWidth < 480 ? 'mini' : null
 }
 
-Vue.mixin({
-  methods: {
-    hasAuth (btn = '', menu = '') {
-      let map = this.$state.sesBtnAuthMap()
-      menu = menu || this.$route.name
-      return map[menu] ? map[menu].includes(btn) : false
-    }
-  }
-})
 /* eslint-disable no-new */
 new Vue({
   router,
