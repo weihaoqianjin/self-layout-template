@@ -1,5 +1,7 @@
 <template>
-    <div class="page-container flex-midcenter"><img src="https://fgh5s.oss-cn-hangzhou.aliyuncs.com/boss/perfect/404.jpg" /></div>
+    <div class="page-container flex-midcenter">
+        <img src="https://fgh5s.oss-cn-hangzhou.aliyuncs.com/boss/perfect/404.jpg" />
+    </div>
 </template>
 
 <style lang="scss" scoped>

@@ -2,12 +2,8 @@
   <div class="app-wrapper flex-column">
     <menu-drawer :is-visiable="drawer" />
     <div class="flex header-block mobile__fixed">
-      <div class="logo flex-midcenter">
-        <img src="https://fgh5s.oss-cn-hangzhou.aliyuncs.com/boss/perfect/index-logo.png" style="width:70%"/>
-      </div>
-      <div class="media-show mr-2">
-        <i class="el-icon-download font-20 font-bold mr-4 cursor-pointer" @click="jump('/device/download-list')"/>
-        <hamburger class="hamburger-container mr-2" :toggleClick="toggleDrawer" :isActive="drawer"></hamburger>
+      <div class="media-show mt-2 ml-2">
+        <hamburger class="hamburger-container" :toggleClick="toggleDrawer" :isActive="drawer"></hamburger>
       </div>
       <navbar class="nav media-hidden"/>
     </div>
@@ -54,16 +50,12 @@ export default {
     this.Bus.$on('toggleDrawer', this.toggleDrawer)
   },
   beforeUpdate () {
-    console.log('main:beforeUpdate')
   },
   updated () {
-    console.log('main:updated')
   },
   beforeDestory () {
-    console.log('main:beforeDestory')
   },
   destroyed () {
-    console.log('main:destroyed')
   }
 }
 </script>

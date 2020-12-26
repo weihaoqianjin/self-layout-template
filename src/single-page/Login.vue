@@ -3,12 +3,11 @@
       <el-form label-position="left" label-width="0px" class="demo-ruleForm login-container" :class="{animated: inputNull}">
         <div>
           <div class="login-logo">
-            <img src="https://fgh5s.oss-cn-hangzhou.aliyuncs.com/boss/perfect/logo.png" />
+            <img src="@/assets/avatar.png" />
           </div>
         </div>
         <div class="spr-name">
-          <div>欢迎登录SRP</div>
-          <span>V2.0</span>
+          <div>欢迎登录</div>
         </div>
         <div class="form-area">
           <div class="form-line" prop="account">
@@ -57,12 +56,6 @@ export default {
       }
       return map
     },
-    getVcodeData () {
-      this.imageData = '/backendapi/code.cci?_' + (new Date()).getTime()
-    },
-    changeCode () {
-      this.getVcodeData()
-    },
     errorAlert (text, dom) {
         this.$refs[dom].focus()
         this.$message.error(text)
@@ -74,24 +67,14 @@ export default {
     async handleSubmit2 (ev) {
       if (!this.ruleForm2.account) return this.errorAlert('请输入用户名', 'account')
       if (!this.ruleForm2.checkPass) return this.errorAlert('请输入密码', 'password')
-      if (!this.ruleForm2.code) return this.errorAlert('请输入验证码', 'code')
       const loginParams = Object.assign({}, { userName: this.ruleForm2.account, password: this.ruleForm2.checkPass, yzm: this.ruleForm2.code })
-      // let ret = await this.$http.cors('/self-layout/login', loginParams)
-      let ret = {
-        code: 200,
-        data: {
-          userInfo: {name: '尚子寒'},
-          auth: []
-        }
-      }
+      let ret = await this.$http.cors('/self-layout/login', loginParams)
       if (ret.code === 200) {
         this.$dispatch('setUserInfo', ret.data.userInfo)
         this.$dispatch('clearVisitedViews')
         let result = await this.getMenuList(ret.data.menuAuth)
         let url = this.$state.menuGroups[0].link
         result && this.$router.push(url)
-      } else {
-        this.getVcodeData()
       }
     },
     // 根据idMap过滤auth tree
@@ -215,32 +198,9 @@ export default {
       return true
     }
   },
-  beforeCreate () {
-    console.log('login:beforeCreate')
-  },
-  created () {
-    console.log('login:created')
-  },
-  beforeMount () {
-    console.log('login:beforeMount')
-  },
   mounted () {
-    console.log('login:mounted')
     sessionStorage.clear()
-    this.getVcodeData()
     this.bodyHeight = document.documentElement.clientHeight
-  },
-  beforeUpdate () {
-    console.log('login:beforeUpdate')
-  },
-  updated () {
-    console.log('login:updated')
-  },
-  beforeDestory () {
-    console.log('login:beforeDestory')
-  },
-  destroyed () {
-    console.log('login:destroyed')
   }
 }
 </script>

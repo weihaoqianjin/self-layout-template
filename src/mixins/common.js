@@ -1,29 +1,5 @@
-import address from '@/assets/area'
-let area = {}
-let city = {}
-address.array.forEach(item => {
-  item.cityList.forEach(item1 => {
-    area[item1.id] = {
-      area: item1.name,
-      province: item.name
-    }
-    item1.areaList.forEach(item2 => {
-      city[item2.id] = {
-        city: item2.name,
-        area: item1.name,
-        province: item.name
-      }
-    })
-  })
-})
 export default {
   methods: {
-    getArea (id) {
-      return (area[id] && (area[id].province === area[id].area ? area[id].province : (area[id].province + area[id].area)))
-    },
-    getCity (id) {
-      return (city[id] && (city[id].province === city[id].area ? (city[id].area + city[id].city) : (city[id].province + city[id].area + city[id].city))) || ''
-    },
     formatterYMD (row, column, cellValue, index) {
       if (cellValue === undefined || cellValue === '') return '-'
       let d

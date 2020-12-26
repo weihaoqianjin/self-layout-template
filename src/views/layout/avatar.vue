@@ -2,7 +2,7 @@
   <div class="navbar__avatar flex-middle">
       <el-dropdown trigger="click">
         <div class="navbar__avatar__user">
-          <img src="https://fgh5s.oss-cn-hangzhou.aliyuncs.com/boss/assets/user.png" class="avatar-fixed"/>
+          <img src="@/assets/avatar.png"/>
           <div class="hidden-img">{{sysUserName}}</div>
         </div>
         <el-dropdown-menu slot="dropdown">

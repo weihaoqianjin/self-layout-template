@@ -49,6 +49,7 @@ export default {
   line-height: 50px;
   outline: none;
   min-width: 865px;
+  margin-left: 156px;
 }
 .app-firstmenu__menus {
   .menu__item {

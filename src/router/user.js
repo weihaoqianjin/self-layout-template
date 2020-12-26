@@ -5,7 +5,7 @@ const routerMap = [
     children: [
       {
         name: 'user-list',
-        path: 'user-list/:age',
+        path: 'user-list',
         props: true,
         meta: { title: '用户列表' },
         component: () => import('@/views/user/user-list')
@@ -42,6 +42,7 @@ const routerMap = [
       {
         name: 'user-detail',
         path: 'user-detail',
+        hidden: true,
         meta: { title: '用户详情', cached: false },
         component: () => import('@/views/user/user-detail')
       }
